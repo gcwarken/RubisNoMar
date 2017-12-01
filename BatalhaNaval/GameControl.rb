@@ -1,5 +1,5 @@
 $LOAD_PATH << '.'
-require './Board.rd'
+require './Board.rb'
 require './ShipInterface.rb'
 
 module NavalBattle
@@ -35,6 +35,8 @@ module NavalBattle
           p1_ships.push(ship)
         else
           p2_ships.push(ship)
+        end
+      end
 
       return ship_added
     end
@@ -100,7 +102,7 @@ module NavalBattle
     def positions_are_available?(positions)
       are_available = true
       for pos in positions
-        if @board.is_occupied(pos[0], pos[1]):
+        if @board.is_occupied(pos[0], pos[1])
           are_available = false
           break
         end
