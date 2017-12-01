@@ -16,9 +16,14 @@ module NavalBattle
       @p2_ships = Array.new()
     end
 
-    def new_game(board_size)
-      @p1_board = NavalBattle::Board.new(board_size)
-      @p2_board = NavalBattle::Board.new(board_size)
+    def new_game(board_size = nil)
+      if board_size.nil?
+        @p1_board = NavalBattle::Board.new()
+        @p2_board = NavalBattle::Board.new()
+      else
+        @p1_board = NavalBattle::Board.new(board_size)
+        @p2_board = NavalBattle::Board.new(board_size)
+      end
       @p1_ships = Array.new()
       @p2_ships = Array.new()
     end
