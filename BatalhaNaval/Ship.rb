@@ -65,20 +65,11 @@ module NavalBattle
     end
 
     def is_destroyed?(position = nil)
-      destroyed = false
-
       if position == nil  # Checks if is fully destroyed.
-        destroyed = true
-        for ship_segment in @destroyed_segments
-          if ship_segment == false
-            destroyed = false
-            break
-          end
-        end
+        @destroyed_segments.all?
       elsif is_in_position?(position)  # Checks if position is destroyed.
-          destroyed = @destroyed_segments[segment_index(position)]
+        @destroyed_segments[segment_index(position)]
       end
-      return destroyed
     end
 
     def is_in_position?(position)
