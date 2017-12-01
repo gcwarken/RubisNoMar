@@ -1,4 +1,4 @@
 module NavalBattle
-    class GameControl
-    end
+  class GameControl
+  end
 end

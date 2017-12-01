@@ -1,4 +1,4 @@
 module NavalBattle
-    class Ship
-    end
+  class Ship
+  end
 end

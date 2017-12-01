@@ -1,4 +1,4 @@
 module NavalBattle
-    class Board
-    end
+  class Board
+  end
 end
