@@ -13,5 +13,9 @@ module NavalBattle
     def is_occupied(position_x, position_y)
       @board_matrix[position_x][position_y]
     end
+
+    def change_occupation(position_x, position_y, occupation)
+      @board_matrix[position_x, position_y] = occupation
+    end
   end
 end
