@@ -4,12 +4,14 @@ require './ShipInterface.rb'
 
 module NavalBattle
   class GameControl
-    @board
+    @p1_board
     @p1_ships
+    @p2_board
     @p2_ships
 
     def initialize()
-      @board = nil
+      @p1_board = nil
+      @p2_board = nil
       @p1_ships = Array.new()
       @p2_ships = Array.new()
     end
