@@ -32,9 +32,9 @@ module NavalBattle
         ship_added = true
         occupy_board(ship.positions())
         if player == 1
-          p1_ships.push(ship)
+          @p1_ships.push(ship)
         else
-          p2_ships.push(ship)
+          @p2_ships.push(ship)
         end
       end
 
@@ -89,10 +89,10 @@ module NavalBattle
     def positions_inside_board?(positions)
       is_inside = true
       for pos in positions
-        if pos[0] < 0 or pos[0] > board.size
+        if pos[0] < 0 or pos[0] > @board.size
           is_inside = false
           break
-        elsif pos[1] < 0 or pos[1] > board.size
+        elsif pos[1] < 0 or pos[1] > @board.size
           is_inside = false
           break
         end
