@@ -46,11 +46,10 @@ module NavalBattle
           ship_position = Array.new([rand(board_size), rand(board_size - ship_size)])
         end
 
-        ship_position = Array.new([rand(board_size), rand(board_size)])
         curr_ship = Ship.new(ship_size, ship_position, horizontal_oriented)
       end while game.add_ship(curr_ship, curr_player)
 
-      #puts "ship of size #{ship_size} added to player #{curr_player}!"
+      puts "ship of size #{ship_size} added to player #{curr_player}!"
     end
   end
 

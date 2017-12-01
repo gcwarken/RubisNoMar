@@ -17,7 +17,8 @@ module NavalBattle
     end
 
     def new_game(board_size)
-      @board = NavalBattle::Board.new(board_size)
+      @p1_board = NavalBattle::Board.new(board_size)
+      @p2_board = NavalBattle::Board.new(board_size)
       @p1_ships = Array.new()
       @p2_ships = Array.new()
     end
@@ -29,13 +30,18 @@ module NavalBattle
 
       ship_added = false
 
-      if positions_inside_board?(ship.positions()) and
-          positions_are_available?(ship.positions())
-        ship_added = true
-        occupy_board(ship.positions())
-        if player == 1
+      if player == 1
+        if positions_inside_board?(ship.positions(), @p1_board) and
+          positions_are_available?(ship.positions(), @p1_board)
+          ship_added = true
+          occupy_board(ship.positions(), @p1_board)
           @p1_ships.push(ship)
-        else
+        end
+      else
+        if positions_inside_board?(ship.positions(), @p2_board) and
+          positions_are_available?(ship.positions(), @p2_board)
+          ship_added = true
+          occupy_board(ship.positions(), @p2_board)
           @p2_ships.push(ship)
         end
       end
@@ -88,23 +94,23 @@ module NavalBattle
 
     private
 
-    def positions_inside_board?(positions)
+    def positions_inside_board?(positions, board)
       is_inside = true
       for pos in positions
-        if pos[0] < 0 or pos[0] > @board.size
+        if pos[0] < 0 or pos[0] > board.size
           is_inside = false
           break
-        elsif pos[1] < 0 or pos[1] > @board.size
+        elsif pos[1] < 0 or pos[1] > board.size
           is_inside = false
           break
         end
       end
     end
 
-    def positions_are_available?(positions)
+    def positions_are_available?(positions, board)
       are_available = true
       for pos in positions
-        if @board.is_occupied(pos[0], pos[1])
+        if board.is_occupied(pos[0], pos[1])
           are_available = false
           break
         end
@@ -113,9 +119,9 @@ module NavalBattle
       return are_available
     end
 
-    def occupy_board(positions)
+    def occupy_board(positions, board)
       for pos in positions
-        @board.change_occupation(pos[0], pos[1], true)
+        board.change_occupation(pos[0], pos[1], true)
       end
     end
   end
