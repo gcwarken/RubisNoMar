@@ -7,7 +7,7 @@ module NavalBattle
     # constructor
     def initialize(size)
       @size = size
-      @board_matrix = Array.new(10) { Array.new(10, false) }
+      @board_matrix = Array.new(@size, Array.new(@size, false))
     end
 
     def is_occupied(position_x, position_y)
