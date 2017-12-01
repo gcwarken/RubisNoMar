@@ -92,6 +92,13 @@ module NavalBattle
       return destroyed
     end
 
+    def draw_board()
+      puts "\n\nPLAYER 1:\n\n"
+      puts @p1_board.draw()
+      puts "\n\nPLAYER 2:\n\n"
+      puts @p2_board.draw()
+    end
+
     private
 
     def positions_inside_board?(positions, board)

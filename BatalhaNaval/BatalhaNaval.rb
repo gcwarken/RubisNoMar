@@ -19,7 +19,6 @@ module NavalBattle
     ships.push(mine_size)
   end
 
-
   print "How many submarines of size #{sub_size}?\t"
   submarine_quant = gets.chomp.to_i
   for i in 0..submarine_quant - 1
@@ -28,7 +27,7 @@ module NavalBattle
 
   print "How many ships of size #{ship_size}?\t"
   ship_quant = gets.chomp.to_i
-  for i in 0..mine_quant - 1
+  for i in 0..ship_quant - 1
     ships.push(ship_size)
   end
 
@@ -47,11 +46,63 @@ module NavalBattle
         end
 
         curr_ship = Ship.new(ship_size, ship_position, horizontal_oriented)
-      end while game.add_ship(curr_ship, curr_player)
+      end while not game.add_ship(curr_ship, curr_player)
 
       puts "ship of size #{ship_size} added to player #{curr_player}!"
     end
   end
 
+  game.draw_board()
 
+  # game loop
+  end_game = false
+  while not end_game
+    for player in 1..2
+
+      if not end_game
+        puts "\nTurno do player #{player}..."
+
+        # Recebe input do jogador.
+        choice = -1
+        while choice != 1 and choice != 2
+          puts "\nJogar(1) Desistir(2):"
+          choice = gets.chomp
+          choice = choice.to_i
+
+          if choice == 2
+            end_game = true
+            break
+          end
+        end
+
+        # Não houve desistência.
+        if not end_game
+          puts "\nEntre com coordenada x:"
+          x = gets.chomp
+          puts "\nEntre com coordenada y:"
+          y = gets.chomp
+          pos = Array.new([x.to_i, y.to_i])
+          hit = game.new_turn(pos, player)
+          if hit
+            puts "\nACERTOU!\n"
+          else
+            puts "\nERRRROW!\n"
+          end
+        end
+
+        # Verifica vitorioso.
+        if player == 1
+          if game.is_all_destroyed?(2)
+            puts "\nPLAYER 1 GANHOU!\n"
+            end_game = true
+          end
+        else
+          if game.is_all_destroyed?(1)
+            puts "\nPLAYER 2 GANHOU!\n"
+            end_game = true
+          end
+        end
+      end
+    end
+  end
 end

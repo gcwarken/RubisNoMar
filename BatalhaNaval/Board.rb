@@ -7,7 +7,7 @@ module NavalBattle
     # constructor
     def initialize(size)
       @size = size
-      @board_matrix = Array.new(@size, Array.new(@size, false))
+      @board_matrix = Array.new(@size) { Array.new(@size, false) }
     end
 
     def is_occupied(position_x, position_y)
@@ -16,6 +16,20 @@ module NavalBattle
 
     def change_occupation(position_x, position_y, occupation)
       @board_matrix[position_x][position_y] = occupation
+    end
+
+    def draw()
+      for i in 0..@size-1
+        str = ""
+        for j in 0..@size-1
+          if @board_matrix[i][j]
+            str += "@"
+          else
+            str += "."
+          end
+        end
+        puts str
+      end
     end
   end
 end
