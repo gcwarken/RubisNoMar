@@ -5,10 +5,9 @@ module NavalBattle
   class Ship < NavalBattle::ShipInterface
     @size
     @position
+    @positions
     @destroyed_segments
     @horizontal_oriented
-
-    attr_reader :destroyed_segments
 
     def initialize(size, position, horizontal_oriented)
       if size < 1
@@ -31,6 +30,26 @@ module NavalBattle
       @horizontal_oriented = horizontal_oriented
 
       @destroyed_segments = Array.new(@size, false)
+
+      @positions = Array.new(@size)
+      @positions[0] = position
+      if horizontal_oriented == true
+        for i in 1..@size - 1
+          @positions[i] = [position[0] + i, position[1]]
+        end
+      else
+        for i in 1..@size - 1
+          @positions[i] = [position[0], position[1] + i]
+        end
+      end
+    end
+
+    def positions()
+      return Array.new(@positions)
+    end
+
+    def destroyed_segments()
+      return Array.new(@destroyed_segments)
     end
 
     def destroy_position(position)
