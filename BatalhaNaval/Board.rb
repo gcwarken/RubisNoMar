@@ -23,9 +23,9 @@ module NavalBattle
         str = ""
         for j in 0..@size-1
           if @board_matrix[i][j]
-            str += "@"
+            str += "\e[47m#{"  "}\e[0m"
           else
-            str += "."
+            str += "\e[44m#{"  "}\e[0m"
           end
         end
         puts str
