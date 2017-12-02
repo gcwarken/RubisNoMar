@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $LOAD_PATH << '.'
 # require all files in current folder
-Dir["./*.rb"].each { |file| require file unless file == "./BatalhaNaval.rb"}
+Dir["./*.rb"].each { |file| require file unless file == "./BatalhaNaval.rb" }
 
 module NavalBattle
   mine_size = 1
@@ -52,7 +52,7 @@ module NavalBattle
     end
   end
 
-  game.draw_board()
+  game.draw_board(NavalBattle.method(:consoleFullBoardDraw))
 
   # game loop
   end_game = false

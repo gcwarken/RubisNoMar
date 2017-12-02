@@ -92,11 +92,11 @@ module NavalBattle
       return destroyed
     end
 
-    def draw_board()
+    def draw_board(board_drawer)
       puts "\n\nPLAYER 1:\n\n"
-      puts @p1_board.draw()
+      board_drawer.call(@p1_board)
       puts "\n\nPLAYER 2:\n\n"
-      puts @p2_board.draw()
+      board_drawer.call(@p2_board)
     end
 
     private
