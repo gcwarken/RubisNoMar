@@ -2,11 +2,17 @@ module NavalBattle
   class Board
     @size
     @board_matrix
+    @default_board_size
     attr_reader :size
 
     # constructor
-    def initialize(size)
-      @size = size
+    def initialize(size = nil)
+      @default_board_size = 15
+      if size.nil?
+        @size = @default_board_size
+      else
+        @size = size
+      end
       @board_matrix = Array.new(@size) { Array.new(@size, false) }
     end
 
