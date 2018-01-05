@@ -53,3 +53,7 @@ build-iPhoneSimulator/
 DiagramaBatalhaNaval.dia~
 DiagramaBatalhaNaval.autosave
 
+
+\.vs/
+
+BatalhaNaval/\.vscode/

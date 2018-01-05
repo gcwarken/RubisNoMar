@@ -87,7 +87,7 @@ module NavalBattle
       end
 
       destroyed = true
-      for ship in ships
+      ships.each do |ship|
         if ship.is_destroyed? == false
           destroyed = false
           break
