@@ -34,27 +34,26 @@ module NavalBattle
       @positions = Array.new(@size)
       @positions[0] = position
       if horizontal_oriented == true
-        for i in 1..@size - 1
-          @positions[i] = [position[0] + i, position[1]]
+        (1...@size).each do |n|
+          @positions[n] = [position[0] + n, position[1]]
         end
       else
-        for i in 1..@size - 1
-          @positions[i] = [position[0], position[1] + i]
+        (1...@size).each do |n|
+          @positions[n] = [position[0], position[1] + n]
         end
       end
     end
 
-    def positions()
-      return Array.new(@positions)
+    def positions
+      Array.new(@positions)
     end
 
-    def destroyed_segments()
-      return Array.new(@destroyed_segments)
+    def destroyed_segments
+      Array.new(@destroyed_segments)
     end
 
     def destroy_position(position)
       was_destroyed = false
-
       if is_in_position?(position)
         i = segment_index(position)
         @destroyed_segments[i] = true

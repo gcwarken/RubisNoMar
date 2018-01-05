@@ -9,23 +9,23 @@ module NavalBattle
     @p2_board
     @p2_ships
 
-    def initialize()
+    def initialize
       @p1_board = nil
       @p2_board = nil
-      @p1_ships = Array.new()
-      @p2_ships = Array.new()
+      @p1_ships = []
+      @p2_ships = []
     end
 
     def new_game(board_size = nil)
       if board_size.nil?
-        @p1_board = NavalBattle::Board.new()
-        @p2_board = NavalBattle::Board.new()
+        @p1_board = NavalBattle::Board.new
+        @p2_board = NavalBattle::Board.new
       else
         @p1_board = NavalBattle::Board.new(board_size)
         @p2_board = NavalBattle::Board.new(board_size)
       end
-      @p1_ships = Array.new()
-      @p2_ships = Array.new()
+      @p1_ships = []
+      @p2_ships = []
     end
 
     def add_ship(ship, player)
@@ -36,17 +36,17 @@ module NavalBattle
       ship_added = false
 
       if player == 1
-        if positions_inside_board?(ship.positions(), @p1_board) and
-          positions_are_available?(ship.positions(), @p1_board)
+        if positions_inside_board?(ship.positions, @p1_board) and
+          positions_are_available?(ship.positions, @p1_board)
           ship_added = true
-          occupy_board(ship.positions(), @p1_board)
+          occupy_board(ship.positions, @p1_board)
           @p1_ships.push(ship)
         end
       else
-        if positions_inside_board?(ship.positions(), @p2_board) and
-          positions_are_available?(ship.positions(), @p2_board)
+        if positions_inside_board?(ship.positions, @p2_board) and
+          positions_are_available?(ship.positions, @p2_board)
           ship_added = true
-          occupy_board(ship.positions(), @p2_board)
+          occupy_board(ship.positions, @p2_board)
           @p2_ships.push(ship)
         end
       end

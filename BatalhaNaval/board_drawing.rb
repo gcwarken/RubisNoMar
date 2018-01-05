@@ -1,8 +1,8 @@
 module NavalBattle
   def consoleFullBoardDraw(board)
-    for i in 0..board.size-1
+    (0...board.size).each do |i|
       str = ""
-      for j in 0..board.size-1
+      (0...board.size).each do |j|
         if board.is_occupied(i, j)
           str += "\e[47m#{"  "}\e[0m"
         else

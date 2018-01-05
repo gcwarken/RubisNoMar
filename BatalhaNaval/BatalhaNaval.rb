@@ -11,31 +11,31 @@ module NavalBattle
   print "Select board size: "
   board_size = gets.chomp.to_i
 
-  ships = Array.new()
+  ships = Array.new
 
   print "How many mines of size #{mine_size}?\t"
   mine_quant = gets.chomp.to_i
-  for i in 0..mine_quant - 1
+  mine_quant.times do
     ships.push(mine_size)
   end
 
   print "How many submarines of size #{sub_size}?\t"
   submarine_quant = gets.chomp.to_i
-  for i in 0..submarine_quant - 1
+  submarine_quant.times do
     ships.push(sub_size)
   end
 
   print "How many ships of size #{ship_size}?\t"
   ship_quant = gets.chomp.to_i
-  for i in 0..ship_quant - 1
+  ship_quant.times do
     ships.push(ship_size)
   end
 
-  game = GameControl.new()
+  game = GameControl.new
   game.new_game(board_size)
 
   # add ships to board
-  for curr_player in 1..2
+  (1..2).each do |curr_player|
     ships.each do |ship_size|
       begin
         horizontal_oriented = [true, false].sample
@@ -57,8 +57,7 @@ module NavalBattle
   # game loop
   end_game = false
   while not end_game
-    for player in 1..2
-
+    (1..2).each do |player|
       if not end_game
         puts "\nTurno do player #{player}..."
 

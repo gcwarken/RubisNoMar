@@ -4,11 +4,11 @@ module NavalBattle
       raise NotImplementedError "Should be implemented in child class."
     end
 
-    def positions()
+    def positions
       raise NotImplementedError "Should be implemented in child class."
     end
 
-    def destroyed_segments()
+    def destroyed_segments
       raise NotImplementedError "Should be implemented in child class."
     end
 
