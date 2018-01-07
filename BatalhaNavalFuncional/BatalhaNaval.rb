@@ -40,6 +40,17 @@ def checkIfBoardFree(board, ship, hor_oriented, position)
 end
 
 def addShip(board, ship, hor_oriented, position)
+  board[position.posX][position.posY] = brdShip
+
+  next_pos = position
+
+  if hor_oriented
+    next_pos.posX = next_pos.posX + 1
+  else
+    next_pos.posY = next_pos.posY + 1
+  end
+
+  addShip(board, ship-1, hor_oriented, next_pos) unless ship == 1
 end
 
 def fillBoard(board, ships)
