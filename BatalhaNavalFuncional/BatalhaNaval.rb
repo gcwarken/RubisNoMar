@@ -3,25 +3,62 @@ $LOAD_PATH << '.'
 # require all files in current folder
 Dir["./*.rb"].each { |file| require file unless file == "./BatalhaNaval.rb" }
 
-# Type Board
-Board = Struct.new(:Size)
+# Board Position Types
+brdWater = 0
+brdShip  = 1
+brdWreck = 2
 
-gameBoard = Board.new(15)
+board_size = 15
 
-# Ship Types
-mine_type = 1
-sub_type  = 2
-ship_type = 3
+game_board = Array.new(board_size) { Array.new(board_size, brdWater) }
 
 # Type Point
 Point = Struct.new(:posX, :posY)
 
-# Type Ship
-Ship = Struct.new(:Point, :ShipType, :Direction) do
+# Ship Types
+mine_type  = 1
+mine_quant = 5
 
-  def
+sub_type   = 2
+sub_quant  = 4
+
+ship_type  = 3
+ship_quant = 3
+
+ships = Array.new
+
+def insert_ships(type, quant, shipList)
+  shipList.push(type) unless quant == 0
+  insert_ships(type, quant-1, shipList) unless quant == 0
+end
+
+insert_ships(mine_type, mine_quant, ships)
+insert_ships(sub_type, sub_quant, ships)
+insert_ships(ship_type, ship_quant, ships)
+
+def checkIfBoardFree(board, ship, hor_oriented, position)
+end
+
+def addShip(board, ship, hor_oriented, position)
+end
+
+def fillBoard(board, ships)
+  curr_ship = ships.pop
+
+  board_free = false
+  while not board_free
+    horizontal_oriented = [true, false].sample
+    if hor_oriented
+      ship_position = Point.new([rand(board_size - ship), rand(board_size)])
+    else
+      ship_position = Point.new([rand(board_size), rand(board_size - ship)])
+    end
+    board_free = checkIfBoardFree(board, curr_ship, horizontal_oriented, ship_position)
   end
 
+  addShip(board, curr_ship, horizontal_oriented, ship_position)
+
+  fillBoard(board, ships) unless not ships.any?
 end
 
 
