@@ -7,7 +7,6 @@ Dir["./*.rb"].each { |file| require file unless file == "./BatalhaNaval.rb" }
 brdWater = 0
 brdShip  = 1
 brdWreck = 2
-
 board_size = 15
 
 game_board = Array.new(board_size) { Array.new(board_size, brdWater) }
@@ -39,7 +38,6 @@ insert_ships(ship_type, ship_quant, ships)
 def checkIfBoardFree(board, ship, hor_oriented, position)
   if board[position.posX][position.posY] > 0
     return false
-
   else
     next_pos = position
 
@@ -48,28 +46,19 @@ def checkIfBoardFree(board, ship, hor_oriented, position)
     else
       next_pos.posY = next_pos.posY + 1
     end
-
     checkIfBoardFree(board, ship-1, hor_oriented, next_pos) unless ship == 1
   end
 end
 
 def addShip(board, ship, hor_oriented, position)
   board[position.posX][position.posY] = brdShip
-
   next_pos = position
-
-  if hor_oriented
-    next_pos.posX = next_pos.posX + 1
-  else
-    next_pos.posY = next_pos.posY + 1
-  end
-
-  addShip(board, ship-1, hor_oriented, next_pos) unless ship == 1
+  hor_oriented ? next_pos.posX += 1 : next_pos.posY += 1
+  addShip(board, ship - 1, hor_oriented, next_pos) unless ship == 1
 end
 
 def fillBoard(board, ships)
   curr_ship = ships.pop
-
   board_free = false
   while not board_free
     horizontal_oriented = [true, false].sample
@@ -82,15 +71,13 @@ def fillBoard(board, ships)
   end
 
   addShip(board, curr_ship, horizontal_oriented, ship_position)
-
   fillBoard(board, ships) unless not ships.any?
 end
 
 def checkGameOver(board)
   # return true if game over
-  return not board.grep(brdShip).any?
+  not board.grep(brdShip).any?
 end
-
 
 puts "Game set, prepare for battle!\n"
 
@@ -103,7 +90,7 @@ while not end_game
     if not end_game
       puts "\nTurno do player #{player}..."
 
-      # Recebe input do jogador.
+      # gets player input
       choice = -1
       while choice != 1 and choice != 2
         puts "\nJogar(1) Desistir(2):"
@@ -116,7 +103,7 @@ while not end_game
         end
       end
 
-      # Não houve desistência.
+      # game hasn't been quit
       if not end_game
         puts "\nEntre com coordenada x:"
         x = gets.chomp
@@ -131,7 +118,7 @@ while not end_game
         end
       end
 
-      # Verifica vitorioso.
+      # checks for win condition
       if player == 1
         if game.is_all_destroyed?(2)
           puts "\nPLAYER 1 GANHOU!\n"
