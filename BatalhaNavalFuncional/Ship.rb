@@ -1,5 +1,4 @@
 $LOAD_PATH << '.'
-require './ShipInterface.rb'
 
 module NavalBattle
   class Ship < NavalBattle::ShipInterface
