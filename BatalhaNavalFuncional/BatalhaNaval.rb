@@ -37,6 +37,20 @@ insert_ships(sub_type, sub_quant, ships)
 insert_ships(ship_type, ship_quant, ships)
 
 def checkIfBoardFree(board, ship, hor_oriented, position)
+  if board[position.posX][position.posY] > 0
+    return false
+
+  else
+    next_pos = position
+
+    if hor_oriented
+      next_pos.posX = next_pos.posX + 1
+    else
+      next_pos.posY = next_pos.posY + 1
+    end
+
+    checkIfBoardFree(board, ship-1, hor_oriented, next_pos) unless ship == 1
+  end
 end
 
 def addShip(board, ship, hor_oriented, position)
