@@ -86,27 +86,13 @@ def fillBoard(board, ships)
   fillBoard(board, ships) unless not ships.any?
 end
 
-
-game = GameControl.new
-game.new_game(board_size)
-
-# add ships to board
-(1..2).each do |curr_player|
-  ships.each do |ship_size|
-    begin
-      horizontal_oriented = [true, false].sample
-      if horizontal_oriented
-        ship_position = Array.new([rand(board_size - ship_size), rand(board_size)])
-      else
-        ship_position = Array.new([rand(board_size), rand(board_size - ship_size)])
-      end
-
-      curr_ship = Ship.new(ship_size, ship_position, horizontal_oriented)
-    end while not game.add_ship(curr_ship, curr_player)
-
-    puts "ship of size #{ship_size} added to player #{curr_player}!"
-  end
+def checkGameOver(board)
+  # return true if game over
+  return not board.grep(brdShip).any?
 end
+
+
+puts "Game set, prepare for battle!\n"
 
 game.draw_board(NavalBattle.method(:consoleFullBoardDraw))
 
