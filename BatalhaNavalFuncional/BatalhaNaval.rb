@@ -52,7 +52,7 @@ def checkIfBoardFree(board, ship, hor_oriented, position)
 end
 
 def addShip(board, ship, hor_oriented, position)
-  board[0][1] = $brdShip
+  board[position[0]][position[1]] = $brdShip
 
   next_pos = position
 
@@ -88,7 +88,12 @@ end
 
 def checkGameOver(board, ship)
   # return true if game over
-  not board.grep(ship).any?
+  has_any = false
+  board.each do |a|
+    has_any = a.grep(ship).any?
+  end
+
+  not has_any
 end
 
 puts "those are the ships\n"
