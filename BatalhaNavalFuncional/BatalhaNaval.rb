@@ -32,20 +32,20 @@ insert_ships(sub_type, sub_quant, ships)
 insert_ships(ship_type, ship_quant, ships)
 
 def checkIfBoardFree(board, ship, hor_oriented, position)
-  if board[0][1] > 0
+  if board[position[0]][position[1]] > 0
     false
   else
-    next_pos = position
-
-    if hor_oriented
-      next_pos[0]= next_pos[0]+ 1
-    else
-      next_pos[1] = next_pos[1] + 1
-    end
-
     if ship == 1
       true
     else
+      next_pos = position
+
+      if hor_oriented
+        next_pos[0] = next_pos[0] + 1
+      else
+        next_pos[1] = next_pos[1] + 1
+      end
+
       checkIfBoardFree(board, ship-1, hor_oriented, next_pos)
     end
   end
@@ -57,7 +57,7 @@ def addShip(board, ship, hor_oriented, position)
   next_pos = position
 
   if hor_oriented
-    next_pos[0] = next_pos[0]+ 1
+    next_pos[0] = next_pos[0] + 1
   else
     next_pos[1] = next_pos[1] + 1
   end
@@ -86,11 +86,26 @@ def fillBoard(board, ships)
   fillBoard(board, ships) unless not ships.any?
 end
 
-def checkGameOver(board, ship)
+def hitTarget(board, target)
+  if board[target[0]][target[1]] == $brdWater
+    puts "Água!\n"
+  end
+
+  if board[target[0]][target[1]] == $brdWreck
+    puts "Já acertou aí antes!"
+  end
+
+  if board[target[0]][target[1]] == $brdShip
+    board[target[0]][target[1]] = $brdWreck
+    puts "Acertou!"
+  end
+end
+
+def checkGameOver(board)
   # return true if game over
   has_any = false
   board.each do |a|
-    has_any = a.grep(ship).any?
+    has_any = a.grep($brdShip).any?
   end
 
   not has_any
@@ -103,9 +118,40 @@ fillBoard(game_board, ships)
 
 puts "Game set, prepare for battle!\n"
 
-puts game_board.inspect
+puts game_board[0].inspect
+puts game_board[1].inspect
+puts game_board[2].inspect
+puts game_board[3].inspect
+puts game_board[4].inspect
+puts game_board[5].inspect
+puts game_board[6].inspect
+puts game_board[7].inspect
+puts game_board[8].inspect
+puts game_board[9].inspect
+puts game_board[10].inspect
+puts game_board[11].inspect
+puts game_board[12].inspect
+puts game_board[13].inspect
+puts game_board[14].inspect
+puts "\n"
 
 # game loop
 while not checkGameOver(game_board, $brdShip)
+  x = -1
+  y = -1
 
+  while x > $board_size or x < 0
+    puts "\nEntre com coordenada x:"
+    x = gets.chomp.to_i
+  end
+
+  while y > $board_size or y < 0
+    puts "\nEntre com coordenada y:"
+    y = gets.chomp.to_i
+  end
+
+  target = [x, y]
+  hitTarget(game_board, target)
 end
+
+puts "Vitória!"
