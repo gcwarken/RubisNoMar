@@ -42,7 +42,12 @@ def checkIfBoardFree(board, ship, hor_oriented, position)
     else
       next_pos[1] = next_pos[1] + 1
     end
-    checkIfBoardFree(board, ship-1, hor_oriented, next_pos) unless ship == 1
+
+    if ship == 1
+      true
+    else
+      checkIfBoardFree(board, ship-1, hor_oriented, next_pos)
+    end
   end
 end
 
