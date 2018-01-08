@@ -136,7 +136,7 @@ puts game_board[14].inspect
 puts "\n"
 
 # game loop
-while not checkGameOver(game_board, $brdShip)
+while not checkGameOver(game_board)
   x = -1
   y = -1
 
