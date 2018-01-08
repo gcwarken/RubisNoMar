@@ -2,13 +2,13 @@
 $LOAD_PATH << '.'
 
 # Board Position Types
-brdWater = 0
-brdShip  = 1
-brdWreck = 2
+$brdWater = 0
+$brdShip  = 1
+$brdWreck = 2
 
 $board_size = 15
 
-game_board = Array.new($board_size) { Array.new($board_size, brdWater) }
+game_board = Array.new($board_size) { Array.new($board_size, $brdWater) }
 
 # Ship Types
 mine_type  = 1
@@ -52,7 +52,7 @@ def checkIfBoardFree(board, ship, hor_oriented, position)
 end
 
 def addShip(board, ship, hor_oriented, position)
-  board[0][1] = brdShip
+  board[0][1] = $brdShip
 
   next_pos = position
 
@@ -101,6 +101,6 @@ puts "Game set, prepare for battle!\n"
 puts game_board.inspect
 
 # game loop
-while not checkGameOver(game_board, brdShip)
+while not checkGameOver(game_board, $brdShip)
 
 end
