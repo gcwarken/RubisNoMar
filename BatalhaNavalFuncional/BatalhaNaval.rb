@@ -65,17 +65,14 @@ def fillBoard(board, ships)
   while not board_free
     horizontal_oriented = [true, false].sample
     if horizontal_oriented
-      ship_position = Array.new([rand(BOARD_SIZE - curr_ship), rand(BOARD_SIZE)])
+      ship_position = Array.new([rand(BOARD_SIZE - curr_ship) - 1, rand(BOARD_SIZE)])
     else
-      ship_position = Array.new([rand(BOARD_SIZE), rand(BOARD_SIZE - curr_ship)])
+      ship_position = Array.new([rand(BOARD_SIZE), rand(BOARD_SIZE - curr_ship) - 1])
     end
     board_free = checkIfBoardFree(board, curr_ship, horizontal_oriented, ship_position)
   end
 
   addShip(board, curr_ship, horizontal_oriented, ship_position)
-
-  puts "a ship was placed. Ships remaining:\n"
-  puts ships.inspect
 
   fillBoard(board, ships) unless not ships.any?
 end
@@ -113,21 +110,7 @@ fillBoard(game_board.dup, water_objects.dup)
 
 puts "Game set, prepare for battle!\n"
 
-puts game_board[0].inspect
-puts game_board[1].inspect
-puts game_board[2].inspect
-puts game_board[3].inspect
-puts game_board[4].inspect
-puts game_board[5].inspect
-puts game_board[6].inspect
-puts game_board[7].inspect
-puts game_board[8].inspect
-puts game_board[9].inspect
-puts game_board[10].inspect
-puts game_board[11].inspect
-puts game_board[12].inspect
-puts game_board[13].inspect
-puts game_board[14].inspect
+puts game_board.map(&:inspect)
 puts "\n"
 
 # game loop
