@@ -2,34 +2,41 @@
 $LOAD_PATH << '.'
 
 # Board Position Types
-$brdWater = 0
-$brdShip  = 1
-$brdWreck = 2
+BRD_WATER = 0
+BRD_SHIP  = 1
+BRD_WRECK = 2
 
-$board_size = 15
+# Other constants 
 
-game_board = Array.new($board_size) { Array.new($board_size, $brdWater) }
+BOARD_SIZE = 15
+SHIP_SIZE = 3
+SUB_SIZE = 2
+MINE_SIZE = 1
+SHIP_COUNT = 3
+SUB_COUNT = 4
+MINE_COUNT = 5
 
-# Ship Types
-mine_type  = 1
-mine_quant = 5
+game_board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE, BRD_WATER) }
 
-sub_type   = 2
-sub_quant  = 4
+# Struct for water object instantiating
+WaterObject = Struct.new(:count, :size)
 
-ship_type  = 3
-ship_quant = 3
 
-ships = Array.new
-
-def insert_ships(type, quant, shipList)
-  shipList.push(type) unless quant == 0
-  insert_ships(type, quant-1, shipList) unless quant == 0
+# Create a list with all objects to be put on the board
+init_water_objects = lambda do |count, size, a_list|
+  count.times { a_list << size }
+  a_list
 end
 
-insert_ships(mine_type, mine_quant, ships)
-insert_ships(sub_type, sub_quant, ships)
-insert_ships(ship_type, ship_quant, ships)
+# Define specific water object initialization functions with currying
+init_ships = init_water_objects.curry[SHIP_COUNT][SHIP_SIZE]
+init_subs = init_water_objects.curry[SUB_COUNT][SUB_SIZE]
+init_mines = init_water_objects.curry[MINE_COUNT][MINE_SIZE]
+
+def init_water_objects_list(fn1, fn2, fn3)
+  lst = Array.new
+  fn1[lst.dup].concat(fn2[lst.dup], fn3[lst.dup])
+end
 
 def checkIfBoardFree(board, ship, hor_oriented, position)
   if board[position[0]][position[1]] > 0
@@ -39,29 +46,16 @@ def checkIfBoardFree(board, ship, hor_oriented, position)
       true
     else
       next_pos = position
-
-      if hor_oriented
-        next_pos[0] = next_pos[0] + 1
-      else
-        next_pos[1] = next_pos[1] + 1
-      end
-
+      hor_oriented ? next_pos[0] += 1 : next_pos[1] += 1
       checkIfBoardFree(board, ship-1, hor_oriented, next_pos)
     end
   end
 end
 
 def addShip(board, ship, hor_oriented, position)
-  board[position[0]][position[1]] = $brdShip
-
+  board[position[0]][position[1]] = BRD_SHIP
   next_pos = position
-
-  if hor_oriented
-    next_pos[0] = next_pos[0] + 1
-  else
-    next_pos[1] = next_pos[1] + 1
-  end
-
+  hor_oriented ? next_pos[0] += 1 : next_pos[1] += 1
   addShip(board, ship-1, hor_oriented, next_pos) unless ship == 1
 end
 
@@ -71,9 +65,9 @@ def fillBoard(board, ships)
   while not board_free
     horizontal_oriented = [true, false].sample
     if horizontal_oriented
-      ship_position = Array.new([rand($board_size - curr_ship), rand($board_size)])
+      ship_position = Array.new([rand(BOARD_SIZE - curr_ship), rand(BOARD_SIZE)])
     else
-      ship_position = Array.new([rand($board_size), rand($board_size - curr_ship)])
+      ship_position = Array.new([rand(BOARD_SIZE), rand(BOARD_SIZE - curr_ship)])
     end
     board_free = checkIfBoardFree(board, curr_ship, horizontal_oriented, ship_position)
   end
@@ -87,34 +81,35 @@ def fillBoard(board, ships)
 end
 
 def hitTarget(board, target)
-  if board[target[0]][target[1]] == $brdWater
+  if board[target[0]][target[1]] == BRD_WATER
     puts "Água!\n"
   end
 
-  if board[target[0]][target[1]] == $brdWreck
+  if board[target[0]][target[1]] == BRD_WRECK
     puts "Já acertou aí antes!"
   end
 
-  if board[target[0]][target[1]] == $brdShip
-    board[target[0]][target[1]] = $brdWreck
+  if board[target[0]][target[1]] == BRD_SHIP
+    board[target[0]][target[1]] = BRD_WRECK
     puts "Acertou!"
   end
 end
 
 def checkGameOver(board)
   # return true if game over
-  has_any = false
-  board.each do |a|
-    has_any = a.grep($brdShip).any?
-  end
-
-  not has_any
+  not board.flatten.grep(BRD_SHIP).any?
 end
 
-puts "those are the ships\n"
-puts ships.inspect
 
-fillBoard(game_board, ships)
+def test_init(fn1, fn2, fn3)
+  a = init_water_objects_list(fn1, fn2, fn3)
+  p a.inspect
+  p a.length == (SHIP_COUNT + SUB_COUNT + MINE_COUNT)
+end
+
+water_objects = init_water_objects_list(init_ships, init_subs, init_mines)
+
+fillBoard(game_board.dup, water_objects.dup)
 
 puts "Game set, prepare for battle!\n"
 
@@ -140,12 +135,12 @@ while not checkGameOver(game_board)
   x = -1
   y = -1
 
-  while x > $board_size or x < 0
+  while x > BOARD_SIZE or x < 0
     puts "\nEntre com coordenada x:"
     x = gets.chomp.to_i
   end
 
-  while y > $board_size or y < 0
+  while y > BOARD_SIZE or y < 0
     puts "\nEntre com coordenada y:"
     y = gets.chomp.to_i
   end
