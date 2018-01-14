@@ -18,9 +18,6 @@ MINE_COUNT = 5
 
 game_board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE, BRD_WATER) }
 
-# Struct for water object instantiating
-WaterObject = Struct.new(:count, :size)
-
 
 # Create a list with all objects to be put on the board
 init_water_objects = lambda do |count, size, a_list|
@@ -42,6 +39,7 @@ def checkIfBoardFree(board, ship, hor_oriented, position)
   if board[position[0]][position[1]] > 0
     false
   else
+    # ship size
     if ship == 1
       true
     else
@@ -71,9 +69,7 @@ def fillBoard(board, ships)
     end
     board_free = checkIfBoardFree(board, curr_ship, horizontal_oriented, ship_position)
   end
-
   addShip(board, curr_ship, horizontal_oriented, ship_position)
-
   fillBoard(board, ships) unless not ships.any?
 end
 
@@ -110,13 +106,13 @@ fillBoard(game_board.dup, water_objects.dup)
 
 puts "Game set, prepare for battle!\n"
 
-puts game_board.map(&:inspect)
-puts "\n"
-
 # game loop
 while not checkGameOver(game_board)
   x = -1
   y = -1
+
+  puts game_board.map(&:inspect)
+  puts "\n"
 
   while x > BOARD_SIZE or x < 0
     puts "\nEntre com coordenada x:"
